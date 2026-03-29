@@ -2,28 +2,53 @@
 
 The unified architecture represents a generalized execution model supporting:
 
-- dense transformer computation
-- sparse mixture-of-experts routing
-- hybrid parallel compute paths
+- Dense transformer computation  
+- Sparse Mixture of Experts (MoE) routing  
+- Hybrid parallel compute paths  
+
+---
 
 ## Shared Front-End
 
-1. Token Input
-2. Embedding
-3. Positional Encoding
-4. Attention
+- Token Input  
+- Embedding  
+- Positional Encoding  
+- Attention  
+
+---
 
 ## Branches
 
 ### Dense Path
-`Attention -> FeedForward -> Residual`
 
-### MoE Path
-`Attention -> Router -> Experts -> Aggregator -> Residual`
+- Attention  
+- FeedForward  
+- Residual Add  
+
+---
+
+### Sparse Mixture of Experts (MoE) Path
+
+- Attention  
+- Router  
+- Experts  
+- Aggregation  
+- Residual Add  
+
+---
 
 ### Hybrid Path
-`Positional Encoding + Attention -> Hybrid Path -> Mixer -> Residual`
+
+- Positional Encoding  
+- Attention  
+- Hybrid Path  
+- Mixer  
+- Residual Add  
+
+---
 
 ## Convergence
 
-`Residual -> Normalization -> Output Projection`
+- Residual Add  
+- LayerNorm  
+- Output Projection  
