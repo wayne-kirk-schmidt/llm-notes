@@ -1,0 +1,84 @@
+<mxfile host="app.diagrams.net" modified="2026-03-17T00:00:00.000Z" version="26.0.0">
+
+  <diagram id="dense" name="Dense Transformer">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+        <mxCell id="t1" value="Token Input" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="t2" value="Embedding" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="t3" value="Positional" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="t4" value="Attention" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="t5" value="FFN" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="680" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="t6" value="Output" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="200" width="120" height="50"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="moe" name="Sparse MoE">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+        <mxCell id="m1" value="Input" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="m2" value="Attention" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="m3" value="Router" style="rhombus;" vertex="1" parent="1">
+          <mxGeometry x="360" y="190" width="100" height="70"/>
+        </mxCell>
+        <mxCell id="m4" value="Experts" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="520" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="m5" value="Aggregator" style="ellipse;" vertex="1" parent="1">
+          <mxGeometry x="680" y="190" width="120" height="70"/>
+        </mxCell>
+        <mxCell id="m6" value="Output" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="200" width="120" height="50"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="hybrid" name="Hybrid Transformer">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0"/><mxCell id="1" parent="0"/>
+
+        <mxCell id="h1" value="Input" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="h2" value="Attention" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="150" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="h3" value="Linear/Delta" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="250" width="120" height="50"/>
+        </mxCell>
+        <mxCell id="h4" value="Mixer" style="ellipse;" vertex="1" parent="1">
+          <mxGeometry x="400" y="200" width="120" height="70"/>
+        </mxCell>
+        <mxCell id="h5" value="Output" style="rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="200" width="120" height="50"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+</mxfile>
