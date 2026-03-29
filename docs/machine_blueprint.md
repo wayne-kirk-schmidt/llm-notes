@@ -2,115 +2,130 @@
 
 ## Machine Blueprint Table
 
-| Component | Inputs | Outputs | Variants | Required | Notes |
-|----------|--------|---------|----------|----------|-------|
-| Token Input | Raw text / tokens | Token IDs | BPE, SentencePiece | Yes | External to model, but defines vocab boundary |
-| Embedding Layer | Token IDs | Dense vectors | Learned embeddings | Yes | Maps discrete tokens → continuous space |
-| Positional Encoding | Token embeddings | Position-aware embeddings | Absolute, RoPE, NoPE, Hybrid | Yes | Injects order; may be implicit (NoPE variants) |
-| Transformer Block | Embeddings | Updated embeddings | Pre-norm, Post-norm | Yes | Container for attention + feedforward |
-| Attention Layer | Token embeddings | Contextualized embeddings | MHA, GQA, MLA, SWA, Delta, Linear | Yes | Core sequence interaction mechanism |
-| KV Cache | Attention inputs | Cached keys/values | Standard, compressed, sparse | No | Inference optimization, not always explicit |
-| Routing Layer | Token embeddings | Routing weights / indices | Top-k gating, soft routing | No | Only present in MoE / hybrid systems |
-| Expert Layer (FFN) | Routed embeddings | Transformed embeddings | Dense FFN, Sparse experts | Yes* | Always present; sparse in MoE |
-| Expert Aggregation | Expert outputs | Combined embeddings | Weighted sum, concat | No | Only for MoE |
-| Residual Connection | Layer input/output | Stabilized embeddings | Add, scaled add | Yes | Required for deep stacking |
-| Normalization | Embeddings | Normalized embeddings | LayerNorm, RMSNorm, QK-Norm | Yes | Placement varies (pre/post) |
-| Context Window Control | Attention scope | Masked attention | Full, sliding window, sparse | Yes | Controls compute scaling |
-| Hybrid Mixing Layer | Multiple paths | Combined representation | Gated mixing, additive | No | Present in hybrid architectures |
-| State-Space Layer | Sequence input | Sequence output | Mamba, SSM | No | Replaces attention in hybrids |
-| Output Projection | Final embeddings | Logits | Linear projection | Yes | Maps back to vocab space |
-| Sampling / Decoding | Logits | Tokens | Greedy, top-k, nucleus | Yes | Outside core model but required for generation |
+| Component               | Inputs                   | Outputs                    | Variants                                      | Required | Notes |
+|------------------------|--------------------------|----------------------------|-----------------------------------------------|----------|-------|
+| Token Input            | Raw text or tokens       | Token IDs                  | BPE, SentencePiece                            | Yes      | External to model, defines vocabulary boundary |
+| Embedding Layer        | Token IDs                | Dense vectors              | Learned embeddings                            | Yes      | Maps discrete tokens to continuous space |
+| Positional Encoding    | Token embeddings         | Position-aware embeddings  | Absolute, RoPE, NoPE, Hybrid                  | Yes      | Injects order; may be implicit in some variants |
+| Transformer Block      | Embeddings               | Updated embeddings         | Pre-norm, Post-norm                           | Yes      | Container for attention and feedforward |
+| Attention Layer        | Token embeddings         | Contextualized embeddings  | MHA, GQA, MLA, SWA, Delta, Linear             | Yes      | Core sequence interaction mechanism |
+| KV Cache               | Attention inputs         | Cached keys and values     | Standard, compressed, sparse                  | No       | Inference optimization |
+| Routing Layer          | Token embeddings         | Routing weights and indices| Top-k gating, soft routing                    | No       | Present in Mixture of Experts and hybrid systems |
+| Expert Layer (FFN)     | Routed embeddings        | Transformed embeddings     | Dense FFN, sparse experts                     | Yes*     | Always present; sparse in Mixture of Experts |
+| Expert Aggregation     | Expert outputs           | Combined embeddings        | Weighted sum, concatenation                   | No       | Only used in Mixture of Experts |
+| Residual Connection    | Layer input and output   | Stabilized embeddings      | Add, scaled add                               | Yes      | Required for deep stacking |
+| Normalization          | Embeddings               | Normalized embeddings      | LayerNorm, RMSNorm, QK-Norm                   | Yes      | Placement varies |
+| Context Window Control | Attention scope          | Masked attention           | Full, sliding window, sparse                  | Yes      | Controls compute scaling |
+| Hybrid Mixing Layer    | Multiple paths           | Combined representation    | Gated mixing, additive                        | No       | Present in hybrid architectures |
+| State-Space Layer      | Sequence input           | Sequence output            | Mamba, SSM                                    | No       | Alternative to attention |
+| Output Projection      | Final embeddings         | Logits                     | Linear projection                             | Yes      | Maps to vocabulary space |
+| Sampling and Decoding  | Logits                   | Tokens                     | Greedy, top-k, nucleus                        | Yes      | Outside core model but required for generation |
 
 ---
 
 ## Canonical Architecture Flows
 
-### 1. Dense Transformer
+### Dense Transformer
 
-Token Input  
-→ Embedding  
-→ Positional Encoding  
-→ [Transformer Block × N]  
-  → Attention  
-  → Feedforward (FFN)  
-  → Residual + Norm  
-→ Output Projection  
-→ Decoding  
-
----
-
-### 2. Sparse MoE Transformer
-
-Token Input  
-→ Embedding  
-→ Positional Encoding  
-→ [Dense Prefix (optional)]  
-→ [MoE Block × N]  
-  → Attention  
-  → Routing Layer (Top-k)  
-  → Expert Layers (subset activated)  
-  → Expert Aggregation  
-  → Residual + Norm  
-→ Output Projection  
-→ Decoding  
+- Token Input  
+- Embedding  
+- Positional Encoding  
+- Transformer Block repeated N times  
+  - Attention  
+  - Feedforward (FFN)  
+  - Residual Add  
+  - LayerNorm  
+- Output Projection  
+- Decoding  
 
 ---
 
-### 3. Sparse + Efficient Attention
+### Sparse Mixture of Experts (MoE) Transformer
 
-Token Input  
-→ Embedding  
-→ Positional Encoding  
-→ [MoE Block × N]  
-  → MLA Attention  
-  → Sparse Attention (optional)  
-  → Routing  
-  → Experts  
-→ Output  
-
----
-
-### 4. Hybrid Transformer
-
-Token Input  
-→ Embedding  
-→ Positional Encoding  
-→ [Hybrid Block × N]  
-  → Attention Path  
-  → Linear / Delta Path  
-  → Hybrid Mixing  
-  → Optional Routing + Experts  
-→ Output  
+- Token Input  
+- Embedding  
+- Positional Encoding  
+- Optional Dense Prefix  
+- Mixture of Experts Block repeated N times  
+  - Attention  
+  - Routing Layer (Top-K)  
+  - Expert Layers (subset activated)  
+  - Expert Aggregation  
+  - Residual Add  
+  - LayerNorm  
+- Output Projection  
+- Decoding  
 
 ---
 
-### 5. State-Space Hybrid
+### Sparse and Efficient Attention
 
-Token Input  
-→ Embedding  
-→ [State-Space Blocks × N]  
-  → Sequence modeling  
-  → Occasional Attention  
-→ Output  
+- Token Input  
+- Embedding  
+- Positional Encoding  
+- Mixture of Experts Block repeated N times  
+  - Multi-Linear Attention (MLA)  
+  - Sparse Attention (optional)  
+  - Routing  
+  - Experts  
+- Output  
+
+---
+
+### Hybrid Transformer
+
+- Token Input  
+- Embedding  
+- Positional Encoding  
+- Hybrid Block repeated N times  
+  - Attention Path  
+  - Linear or Delta Path  
+  - Hybrid Mixing  
+  - Optional Routing and Experts  
+- Output  
+
+---
+
+### State-Space Hybrid
+
+- Token Input  
+- Embedding  
+- State-Space Blocks repeated N times  
+  - Sequence modeling  
+  - Occasional attention  
+- Output  
 
 ---
 
 ## Structural Reduction
 
-1. Representation Layer (Embedding + Position)  
-2. Interaction Layer (Attention or SSM)  
-3. Selection Layer (Routing, optional)  
-4. Transformation Layer (FFN / Experts)  
-5. Composition Layer (Residual + Norm)  
-6. Projection Layer (Output)  
+- Representation Layer  
+  - Embedding  
+  - Positional Encoding  
+
+- Interaction Layer  
+  - Attention or State-Space  
+
+- Selection Layer  
+  - Routing (optional)  
+
+- Transformation Layer  
+  - Feedforward or Experts  
+
+- Composition Layer  
+  - Residual Add  
+  - LayerNorm  
+
+- Projection Layer  
+  - Output Projection  
 
 ---
 
 ## Component Contracts
 
-| Component | Contract |
-|----------|---------|
-| Attention | token → contextual token |
-| Router | token → expert indices |
-| Expert | token → transformed token |
-| Mixer | multiple paths → single token |
+| Component | Contract                          |
+|-----------|-----------------------------------|
+| Attention | Token to contextual token         |
+| Router    | Token to expert indices           |
+| Expert    | Token to transformed token        |
+| Mixer     | Multiple paths to single token    |
