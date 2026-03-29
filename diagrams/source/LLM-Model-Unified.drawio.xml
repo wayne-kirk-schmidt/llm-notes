@@ -1,0 +1,94 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="n1" value="Input" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="300" width="120" height="50" as="geometry"/>
+    </mxCell>
+<mxCell id="n2" value="Embedding" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="200" y="300" width="120" height="50" as="geometry"/>
+    </mxCell>
+<mxCell id="n3" value="Position" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="360" y="300" width="140" height="50" as="geometry"/>
+    </mxCell>
+<mxCell id="n4" value="Attention" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="520" y="300" width="140" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n5" value="Dense FFN" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="720" y="420" width="160" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n6" value="Router" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="720" y="120" width="120" height="80" as="geometry"/>
+    </mxCell>
+<mxCell id="n7" value="Experts" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="900" y="120" width="140" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n8" value="Aggregator" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="1080" y="120" width="140" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n9" value="Hybrid Path" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="720" y="300" width="160" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n10" value="Mixer" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="1080" y="300" width="140" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n11" value="Residual" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="1260" y="250" width="140" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n12" value="Norm" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="1420" y="250" width="140" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="n13" value="Output" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="1580" y="250" width="160" height="60" as="geometry"/>
+    </mxCell>
+<mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n1" target="n2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n2" target="n3">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n3" target="n4">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n4" target="n5">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n5" target="n11">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n4" target="n6">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n6" target="n7">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n7" target="n8">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n8" target="n11">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n3" target="n9">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n9" target="n10">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n4" target="n10">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n10" target="n11">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e14" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n11" target="n12">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+<mxCell id="e15" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;html=1;" edge="1" parent="1" source="n12" target="n13">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
