@@ -1,4 +1,3 @@
-```markdown
 # Execution DAG
 
 ## Purpose
