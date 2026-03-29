@@ -140,7 +140,7 @@ Control plane responsibilities include:
 
 ---
 
-## Control Plane vs Data Plane Mapping
+## Control vs Data Plane Mapping
 
 ### Data Plane
 
